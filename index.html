@@ -1,0 +1,311 @@
+---
+layout: default
+---
+
+<div class="section" id="introduction">
+  <div class="col">
+    <h3>What's in here?</h3>
+    <p>My thoughts have been compartmentalized around a number of topics related to CSS architecture. Each thought is detailed in its own section. Read the sections in sequence or out of order or pick and choose what seems most relevant to you. It’s not 1000 pages of writing; the sections are relatively short and easy to digest.</p>
+  </div>
+  <div class="col">
+    <h3>About the Author</h3>
+    <p>Hi, my name is Jonathan Snook. I’m a web developer and designer who has been building web sites as a hobby since 1994 and as a professional since 1999.</p>
+
+<p>I maintain a blog at <a href="http://snook.ca/">Snook.ca</a> where I write tips, tricks and bookmarks on web development. I also speak at conferences and workshops and have been thankful to have been able to travel the world to share what I know.</p>
+  </div>
+</div>
+
+<div class="heading" id="toc">
+  <h2>Table of contents</h2>
+</div>
+<div class="section toc">
+  <div class="col">
+    <h4><a href="#core">Core</a></h4>
+    <ul>
+      <li><a href="#core-categorizing">Categorizing CSS Rules</a></li>
+      <li><a href="#core-type-base">Base Rules</a></li>
+      <li><a href="#core-type-layout">Layout Rules</a></li>
+      <li><a href="#core-type-modules">Module Rules</a></li>
+      <li><a href="#core-type-state">State Rules</a></li>
+      <li><a href="#core-type-theme">Theme Rules</a></li>
+      <li><a href="#core-state">Changing State</a></li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4><a href="#aspects">Aspects of SMACSS</a></h4>
+    <ul>
+      <li><a href="#aspects-depth">Depth of Applicability</a></li>
+      <li><a href="#aspects-selector">Selector Performance</a></li>
+      <li><a href="#aspects-html5">HTML5 and SMACSS</a></li>
+      <li><a href="#aspects-prototyping">Prototyping</a></li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4><a href="#format">Formatting Code</a></h4>
+    <ul>
+      <li><a href="#format-lines">Single line versus multiple lines</a></li>
+      <li><a href="#format-grouping">Grouping Properties</a></li>
+      <li><a href="#format-colour">Colour Declarations</a></li>
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="heading" id="html">
+  <h2>Core</h2>
+</div>
+
+<div class="section" id="core-categorizing">
+  <div class="col">
+    <h3>Categorizing</h3>
+    <ol>
+      <li><strong>Base rules</strong> are the defaults.</li>
+      <li><strong>Layout rules</strong> divide the page into sections.</li>
+      <li><strong>Modules</strong> are the resuable, modular parts of our design.</li>
+      <li><strong>State rules</strong> are ways to describe how our modules or layouts will look when in a particular state.</li>
+      <li>Finally, <strong>Theme rules</strong> are similar to state rules in that they describe how modules or layouts might look.</li>
+    </ol>
+    
+    <h4>Naming Rules</h4>
+    <p>I like to use a prefix to differentiate between Layout, State, and Module rules. For Layout, I use <code>l-</code> but <code>layout-</code> would work just as well. Using prefixes like <code>grid-</code> also provide enough clarity to separate layout styles from other styles. For State rules, I like is-</code> as in <code>is-hidden</code> or <code>is-collapsed</code>. This helps describe things in a very readable way.</p>
+    
+    <p>Modules are going to be the bulk of any project. As a result, having every module start with a prefix like <code>.module-</code> would be needlessly verbose. Modules just use the name of the module itself.</p>
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/categorizing.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-type-base">
+  <div class="col">
+    <h3>Base Rules</h3>
+    <p>A Base rule is applied to an element using an element selector, a descendent selector, or a child selector, along with any pseudo-classes. It doesn’t include any class or ID selectors. It is defining the default styling for how that element should look in all occurrences on the page.</p>
+    <p>Base styles include setting heading sizes, default link styles, default font styles, and body backgrounds. There should be no need to use <code>!important</code> in a Base style.</p>
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/base.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-type-layout">
+  <div class="col">
+    <h3>Layout Rules</h3>
+    <p>CSS, by its very nature, is used to lay elements out on the page. However, there is a distinction between layouts dictating the major and minor components of a page. The minor components—such as a callout, or login form, or a navigation item—sit within the scope of major components such as a header or footer. I refer to the minor components as Modules and will dive into those in the next section. The major components are referred to as Layout styles.</p>
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/layout.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-type-module">
+  <div class="col">
+    <h3>Module Rules</h3>
+    <p>IAs briefly mentioned in the previous section, a Module is a more discrete component of the page. It is your navigation bars and your carousels and your dialogs and your widgets and so on. This is the meat of the page. Modules sit inside Layout components. Modules can sometimes sit within other Modules, too. Each Module should be designed to exist as a standalone component. In doing so, the page will be more flexible. If done right, Modules can easily be moved to different parts of the layout without breaking.</p>
+
+<p>When defining the rule set for a module, avoid using IDs and element selectors, sticking only to class names. A module will likely contain a number of elements and there is likely to be a desire to use descendent or child selectors to target those elements.</p>
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/module.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-type-state">
+  <div class="col">
+    <h3>State Rules</h3>
+    <p>A state is something that augments and overrides all other styles. For example, an accordion section may be in a collapsed or expanded state. A message may be in a success or error state.</p>
+
+<p>States are generally applied to the same element as a layout rule or applied to the same element as a base module class.</p>
+ <p>The header element just has an ID. As such we can assume that any styles, if there are any, on this element are for layout purposes and that the <code>is-collapsed</code> represents a collapsed state. One might presume that without this state rule, the default is an expanded state.</p>
+  </div>
+  <div class="col">
+    {% highlight html %}{% include html/state.html %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-type-themes">
+  <div class="col">
+    <h3>Theme Rules</h3>
+    <p>It is probably self-evident but a theme defines colours and images that give your application or site its look and feel. Separating the theme out into its own set of styles allows for those styles to be easily redefined for alternate themes.</p>
+
+<p>Themes can affect any of the primary types. It could override base styles like default link colours. It could change module elements such as chrome colours and borders. It could affect layout with different arrangements. It could also alter how states look.
+
+<p>Let’s say you have a dialog module that needs to have a border colour of blue, the border itself would be initially defined in the module and then the theme defines the colour:</p>
+
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/theme.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="core-state">
+  <div class="col">
+    <h3>Changing State</h3>
+    <p>State changes are represented in one of three ways: class name, pseudo-class and media query.</p>
+    
+    <p>A <strong>class name</strong> change happens with JavaScript. Via some interaction, be it moving the mouse around, hitting something on the keyboard, or some other event occurring. An element gets a new class applied and then the visual appearance changes.</p>
+
+<p>A <strong>pseudo-class</strong> change is done via any number of pseudo-classes, and there are a lot. In these cases, we no longer have to rely on JavaScript to describe the state change. Pseudo-classes are still limited in that we can only style changes to elements that are descendants or siblings of the element in which the pseudo-class applies. Otherwise, we are back to using JavaScript.</p>
+
+<p>Lastly, <strong>media queries</strong> describe how things should by styled under defined criteria, such as different viewport sizes.</p>
+  </div>
+  <div class="col">
+    {% highlight js %}{% include js/menu.js %}{% endhighlight %}
+  </div>
+</div>
+
+
+
+<div class="heading" id="aspects">
+  <h2>Aspects of SMACSS</h2>
+</div>
+
+<div class="section" id="aspects-smacss">
+  <div class="col">
+    <h3>Depth of Applicability</h3>
+    <p>When learning the inner workings of CSS, we learn that we have selectors and that we use selectors to select the HTML elements on the page that we want to style. CSS has grown over the years to give us more power using an ever increasing number of selectors. Each rule set that we add to our style sheet, however, creates an ever increasing connection between the CSS and the HTML.</p>
+    <h4>Minimizing the Depth</h4>
+    <p>HTML is like a tree structure of parents and children. The depth of applicability is the number of generations that are affected by a given rule. For example, <code>body.article > #main > #content > #intro > p > b</code> would have a depth of applicability of 6 generations. If this selector was written as <code>.article #intro b</code> then the depth is still the same: 6 generations.</p>
+    
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/depth.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="aspects-selector">
+  <div class="col">
+    <h3>Selector Performance</h3>
+    <p>With work, I have had to do quite a bit of examination of performance. We run a number of tools over an application to determine where the bottlenecks are. One such application is Google Page Speed which provides a number of recommendations to improve JavaScript and rendering performance.</p>
+    <h4>CSS gets evaluated from right to left.</h4>
+  <p>To determine whether a CSS rule applies to a particular element, it starts from the right of the rule and works its way left.</p>
+
+  <p>If you have a rule like <code>body div#content p { color: #003366; }</code> then for every element—as it gets rendered to the page—it will first ask if it is a paragraph element. If it is then it will work its way up the DOM and ask if it is a div with an ID of content. If it finds what it is looking for, it will continue its way up the DOM until it reaches the body.</p>
+  
+  <h4>Constrain yourself, don't choke yourself</h4>
+  <p>I follow three simple guidelines to help limit the number of elements that need to be evaluated:</p>
+  
+  <ol>
+    <li>Use child selectors</li>
+    <li>Avoid tag selectors for common elements</li>
+    <li>Use class names as the right-most selector</li>
+ </ol>
+  </div>
+  <div class="col">
+    {% highlight html %}{% include html/selector.html %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="aspects-html5">
+  <div class="col">
+    <h3>HTML5 and SMACSS</h3>
+    <p>As it turns out, it works just as well with HTML5 as it does with HTML4 or any other HTML you might be using with your CSS. That is because the SMACSS approach has two core goals:</p>
+    <ul>
+      <li>Increase the semantic value of a section of HTML and content</li>
+      <li>Decrease the expectation of a specific HTML structure</li>
+    </ul>
+    <p>HTML5 introduces a number of new elements which can help us increase the semantic value of a section of HTML and content. Tags like <code>section</code>, <code>header</code>, and <code>aside</code> are more descriptive than a simple <code>div</code>. We have new input types that allow us to differentiate a numeric field from a date field from a text field. The extra tags and attributes have allowed us to be more descriptive. That is a good thing.</p>
+    <p>But even with our new tags to play with, the tags are not necessarily (or very likely) going to describe a very specific module on the page. Is a nav element always going to contain the exact same type and style of navigation?</p>
+  </div>
+  <div class="col">
+    {% highlight html %}{% include html/nav.html %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="aspects-prototyping">
+  <div class="col">
+    <h3>Prototyping</h3>
+    <p>Good programmers like patterns. Good designers like patterns, too. Patterns establish familiarity and encourage re-use. SMACSS is about identifying the patterns in your design and codifying them.</p>
+
+<p>A prototype should assist in viewing components in part or in whole and to allow the codification of the design language into building blocks. The web design industry likes reusable components and can be seen in many of the frameworks like Bootstrap (for a variety of site components) and 960.gs (for layout grids).</p>
+
+  <h4>Goals of a prototype</h4>
+  <p>A prototype can serve multiple goals:</p>
+  
+  <strong>States</strong>
+  <p>From the default state to collapsed states to error states to whatever states you have defined, it is important to be able to visualize each of these states and make sure that the module is built accurately.</p>
+
+<p>If a module is data-driven then real or mock data can be used within your prototype to test that it will render correctly.</p>
+
+<strong>Localization</strong>
+<p>For projects that need to support multiple locales, it will be valuable to be able to test modules using strings from the different locales to ensure layouts don’t break as a result.</p>
+
+<strong>Dependencies</strong>
+<p>Lastly, it is important to isolate dependencies. What CSS and JavaScript dependencies are required to render a module correctly? In larger projects where lazy loading is used, being able to isolate dependencies to the bare minimum required means that you have built a module effectively and can integrate that module into the site without negatively impacting other modules on the page.</p>
+ 
+  </div>
+  
+  <div class="col">
+    <h4>Your Prototype</h4>
+    <p>Having a full-blown engine to compile your modules could very well be unnecessary, especially for a small site. It is still advantageous to isolate your components into an easy-to-review format. MailChimp, for example, has <a href="http://www.flickr.com/photos/aarronwalter/5579386649/">an internal cheat sheet of design patterns</a> that they use to build the site. This documents various modules that are used throughout the site and the code required for each module.</p>
+
+<p>Remember, patterns are good. Codifying those patterns is also good. Having a process in place to review and test those patterns is great!</p>
+ 
+  </div>
+
+</div>
+
+<div class="heading" id="format">
+  <h2>Formatting Code</h2>
+</div>
+
+<div class="section" id="format-lines">
+  <div class="col">
+    <h3>Single line versus multiple lines</h3>
+    <p>In the example, there are 11 properties declared and we could easily have a half-dozen more if we added another feature or two to our module. Having these all on one line would leave the first handful of properties visible on the screen and we would be left scrolling to the right to uncover the rest of the properties. This makes it hard to scan the document and see what properties have been defined.</p>
+
+  <p>There are a few other minor things to note with the example:</p>
+
+  <ul>
+    <li>There is a space after the colon.</li>
+    <li>Four spaces before each declaration (no tabs).</li>
+    <li>Properties are grouped by type.</li>
+    <li>Opening bracket on the same line as the rule set.</li>
+    <li>Colour declarations use the short form.</li>
+  </ul>
+  
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/lines.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="format-grouping">
+  <div class="col">
+    <h3>Grouping Properties</h3>
+    <p>Some people organize alphabetically, others don’t organize at all, and others may use some other arbitrary system. I fall in this last category. It's not completely arbitrary, mind you. I would describe it as ordering from most important to least important but what is important when it comes to declaring styles on an element?</p>
+
+  <p>I organize in the following order:</p>
+
+  <ul>
+    <li>Box</li>
+    <li>Border</li>
+    <li>Background</li>
+    <li>Text</li>
+    <li>Other</li>
+  </ul>
+  
+  <p>Box includes any property that affects the display and position of the box such as <code>display, float, position, left, top, height, width</code> and so on. These are most important to me because they affect the flow of the rest of the document.</p>
+
+  <p>Border includes <code>border</code>, the oft-unused <code>border-image</code>, and <code>border-radius</code>.</p>
+
+  <p>Background comes next. With the advent of CSS3 gradients, background declarations can actually become quite verbose. Once again, vendor prefixes just compound the issue.</p>
+  
+  <p>Text declarations include font-family, font-size, text-transform, letter-spacing and any other CSS properties that affect the display of the type.</p>
+
+  <p>Anything that doesn’t fall into any of the above categories gets added to the end.</p>
+  </div>
+  <div class="col">
+    {% highlight css %}{% include css/grouping.css %}{% endhighlight %}
+  </div>
+</div>
+
+<div class="section" id="format-colour">
+  <div class="col">
+    <h3>Colour Declarations</h3>
+    <p>This may seem like a silly thing to even mention but I have seen different developers do different things. Some like using keywords like <code>black</code> and <code>white</code> but I have always tried to stick to either the 3 digit or 6 digit hex format wherever possible. <code>#000</code> and <code>#FFF</code> are shorter, albeit barely, then their keyword counterparts. Likewise, I wouldn’t use <code>rgb</code> or <code>hsl</code>, since the hex form is shorter. Of course, <code>rgba</code> and <code>hsla</code> have no hex form and they would get used.</p>
+  </div>
+</div>

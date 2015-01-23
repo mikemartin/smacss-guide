@@ -1,0 +1,9 @@
+/* Module example */
+
+.module > h2 {
+    padding: 5px;
+}
+
+.module span {
+    padding: 5px;
+}

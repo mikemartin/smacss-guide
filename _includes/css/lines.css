@@ -1,0 +1,21 @@
+/* CSS3 with the plethora of vendor-prefixed properties can be too much to read easily if all on one line. */
+
+.module {
+    display: block;
+    height: 200px;
+    width: 200px;
+    float: left;
+    position: relative;
+    
+    border: 1px solid #333;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 10px 10px 5px #888;
+
+    font-size: 12px;
+    text-transform: uppercase;
+}

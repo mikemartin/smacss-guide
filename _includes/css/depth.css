@@ -1,0 +1,27 @@
+/* Duplication of rules */
+
+#sidebar div, #footer div {
+    border: 1px solid #333;
+}
+
+#sidebar div h3, #footer div h3 { 
+    margin-top: 5px;
+}
+
+#sidebar div ul, #footer div ul {
+    margin-bottom: 5px; 
+} 
+
+/* Simplification of rules */
+
+.pod {
+    border: 1px solid #333;
+}
+
+.pod > h3 { 
+    margin-top: 5px;
+}
+
+.pod > ul {
+    margin-bottom: 5px; 
+} 

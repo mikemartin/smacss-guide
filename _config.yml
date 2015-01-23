@@ -1,0 +1,7 @@
+name:          Scalable Modular Architecture for CSS
+description:   A flexible guide to developing sites small and large.
+url:           http://smacss.com/
+
+markdown:      rdiscount
+permalink:     pretty
+pygments:      true
